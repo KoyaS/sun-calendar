@@ -27,7 +27,8 @@ utc_time = datetime.strptime(sunrise_time_utc, utc_time_format).replace(tzinfo=u
 
 pdt_time = utc_time.astimezone(pdt_zone)
 
-final_sunrise_time = pdt_time.strftime("%I:%M:%S")
+calendar_time_format = "%I:%M:%S"
+final_sunrise_time = pdt_time.strftime(calendar_time_format)
 
 c = Calendar()
 e = Event()
