@@ -4,8 +4,8 @@ from datetime import datetime, timezone
 import pytz
 
 # API call for sunrise and sunset times in San Francisco, CA
-sun_times_url = "https://api.sunrise-sunset.org/json?lat=37.7749000&lng=-122.4194000&date=today"
 current_date = datetime.now(timezone.utc).strftime('%Y-%m-%d')
+sun_times_url = f"https://api.sunrise-sunset.org/json?lat=37.7749000&lng=-122.4194000&date={current_date}"
 sun_times_url += f"&date={current_date}"
 print(f"sun_times_url: {sun_times_url}")
 
