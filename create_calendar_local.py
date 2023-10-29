@@ -29,16 +29,18 @@ datetime_objects = {
 }
 
 sunrise_time_utc = datetime_objects['sunrise']
+year, month, day = map(int, current_date.split('-'))
+sunrise_time_utc = sunrise_time_utc.replace(year=year, month=month, day=day)
 
-calendar_time_format = "%I:%M:%S"
+calendar_time_format = "%Y-%m-%d %H:%M:%S"
 final_sunrise_time = sunrise_time_utc.strftime(calendar_time_format)
-sunrise_time = f"{current_date} {final_sunrise_time}"
-print(f"Sunrise time: {sunrise_time}")
+print(f"Sunrise time: {final_sunrise_time}")
 
 c = Calendar()
 e = Event()
 e.name = "☀️ Sunrise"
-e.begin = sunrise_time
+e.begin = final_sunrise_time
+e.duration = {'minutes': 30}
 c.events.add(e)
 
 with open('sun.ics', 'w') as f:
