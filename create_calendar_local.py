@@ -5,6 +5,9 @@ import pytz
 
 # API call for sunrise and sunset times in San Francisco, CA
 sun_times_url = "https://api.sunrise-sunset.org/json?lat=37.7749000&lng=-122.4194000&date=today"
+current_date = datetime.now(timezone.utc).strftime('%Y-%m-%d')
+sun_times_url += f"&date={current_date}"
+print(f"sun_times_url: {sun_times_url}")
 
 response = requests.get(sun_times_url)
 
@@ -25,7 +28,6 @@ datetime_objects = {
     if key != 'day_length'  # 'day_length' doesn't match the time format
 }
 
-current_date = datetime.now(timezone.utc).strftime('%Y-%m-%d')
 sunrise_time_utc = datetime_objects['sunrise']
 
 calendar_time_format = "%I:%M:%S"
