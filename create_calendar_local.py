@@ -4,7 +4,7 @@ from datetime import datetime
 import pytz
 
 # API call for sunrise and sunset times in San Francisco, CA
-sun_times_url = "https://api.sunrise-sunset.org/json?lat=37.7749000&lng=122.4194000&date=today"
+sun_times_url = "https://api.sunrise-sunset.org/json?lat=37.7749000&lng=-122.4194000&date=today"
 
 response = requests.get(sun_times_url)
 
