@@ -8,32 +8,35 @@ sun_times_url = "https://api.sunrise-sunset.org/json?lat=37.7749000&lng=122.4194
 
 response = requests.get(sun_times_url)
 
+response_json = None
+
 if response.status_code == 200:
     data = response.json()  # Assuming the response is in JSON format
-    print(data)
+    print(f"response json: {data}")
+    response_json = data
 else:
     print(f"Failed to retrieve data. Status code: {response.status_code}")
 
+time_format = "%I:%M:%S %p"  # format that matches the time strings in the response
+# Convert the strings to datetime objects
+datetime_objects = {
+    key: datetime.strptime(value, time_format).replace(tzinfo=pytz.utc)
+    for key, value in response_json['results'].items()
+    if key != 'day_length'  # 'day_length' doesn't match the time format
+}
 
 current_date = datetime.now().strftime('%Y-%m-%d')
-sunrise_time_utc = response.json().get('results').get('sunrise')
-
-# convert from Coordinated Universal Time (UTC) to Pacific Daylight Time (PDT)
-utc_zone = pytz.utc
-pdt_zone = pytz.timezone('America/Los_Angeles')
-utc_time_format = "%I:%M:%S %p"
-
-utc_time = datetime.strptime(sunrise_time_utc, utc_time_format).replace(tzinfo=utc_zone)
-
-pdt_time = utc_time.astimezone(pdt_zone)
+sunrise_time_utc = datetime_objects['sunrise']
 
 calendar_time_format = "%I:%M:%S"
-final_sunrise_time = pdt_time.strftime(calendar_time_format)
+final_sunrise_time = sunrise_time_utc.strftime(calendar_time_format)
+sunrise_time = f"{current_date} {final_sunrise_time}"
+print(f"Sunrise time: {sunrise_time}")
 
 c = Calendar()
 e = Event()
-e.name = "Sunrise"
-e.begin = f"{current_date} {final_sunrise_time}"
+e.name = "☀️ Sunrise"
+e.begin = sunrise_time
 c.events.add(e)
 
 with open('sun.ics', 'w') as f:
