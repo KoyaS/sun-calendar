@@ -21,6 +21,7 @@ else:
     print(f"Failed to retrieve data. Status code: {response.status_code}")
 
 time_format = "%I:%M:%S %p"  # format that matches the time strings in the response
+year, month, day = map(int, current_date.split('-'))
 # Convert the strings to datetime objects
 datetime_objects = {
     key: datetime.strptime(value, time_format).replace(tzinfo=pytz.utc)
@@ -28,18 +29,24 @@ datetime_objects = {
     if key != 'day_length'  # 'day_length' doesn't match the time format
 }
 
-sunrise_time_utc = datetime_objects['sunrise']
-year, month, day = map(int, current_date.split('-'))
-sunrise_time_utc = sunrise_time_utc.replace(year=year, month=month, day=day)
+for key, dt_obj in datetime_objects.items():
+    datetime_objects[key] = dt_obj.replace(year=year, month=month, day=day)
 
 calendar_time_format = "%Y-%m-%d %H:%M:%S"
-final_sunrise_time = sunrise_time_utc.strftime(calendar_time_format)
-print(f"Sunrise time: {final_sunrise_time}")
 
 c = Calendar()
+
+# Create an event for today's sunrise
 e = Event()
-e.name = "☀️ Sunrise"
-e.begin = final_sunrise_time
+e.name = "🌅 Sunrise"
+e.begin = datetime_objects['sunrise'].strftime(calendar_time_format)
+e.duration = {'seconds': 15*60}
+c.events.add(e)
+
+# Create an event for today's sunset
+e = Event()
+e.name = "🌇 Sunset"
+e.begin = datetime_objects['sunset'].strftime(calendar_time_format)
 e.duration = {'seconds': 15*60}
 c.events.add(e)
 
