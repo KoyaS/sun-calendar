@@ -1,6 +1,6 @@
 import requests
 from ics import Calendar, Event
-from datetime import datetime
+from datetime import datetime, timezone
 import pytz
 
 # API call for sunrise and sunset times in San Francisco, CA
@@ -25,7 +25,7 @@ datetime_objects = {
     if key != 'day_length'  # 'day_length' doesn't match the time format
 }
 
-current_date = datetime.now().strftime('%Y-%m-%d')
+current_date = datetime.now(timezone.utc).strftime('%Y-%m-%d')
 sunrise_time_utc = datetime_objects['sunrise']
 
 calendar_time_format = "%I:%M:%S"
