@@ -40,7 +40,7 @@ c = Calendar()
 e = Event()
 e.name = "☀️ Sunrise"
 e.begin = final_sunrise_time
-e.duration = {'minutes': 30}
+e.duration = {'seconds': 15*60}
 c.events.add(e)
 
 with open('sun.ics', 'w') as f:
