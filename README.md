@@ -4,7 +4,11 @@ A simple ICS calendar that shows daily sunrise & sunset times in San Francisco.
 
 ## 🗓️ Usage
 
-Subscribe to this link ("by URL") in your calendar app: `webcal://www.averychan.site/sun-calendar/sun.ics`
+Subscribe to this link ("by URL") in your calendar app: 
+
+```
+webcal://www.averychan.site/sun-calendar/sun.ics
+```
 
 Sunrise and Sunset times for the current week should appear in your calendar like this:
 
