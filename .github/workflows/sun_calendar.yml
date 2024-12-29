@@ -5,43 +5,57 @@ on:
   # '0 0 * * MON' = at 00:00 UTC every Monday.
   schedule:
     - cron: '0 0 * * MON'
-  # Optionally allow manual runs
   workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
+    # Step 1: Give the workflow permission to push code
+    permissions:
+      contents: write
+
     steps:
-      # Step 1: Check out your code
+      # Step 2: Check out your code
       - name: Check out repository
         uses: actions/checkout@v3
+        with:
+          # IMPORTANT: This ensures we can push changes back
+          persist-credentials: false
 
-      # Step 2: Set up Python
+      # Step 3: Configure git for pushing using the GITHUB_TOKEN
+      - name: Set up git for push
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+      - name: Authenticate for git push
+        run: |
+          echo "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com" > ~/.git-credentials
+          git config credential.helper 'store --file=~/.git-credentials'
+
+      # Step 4: Set up Python
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.x'
 
-      # Step 3: Install Python dependencies
+      # Step 5: Install Python dependencies
       - name: Install dependencies
         run: |
           pip install requests ics pytz
 
-      # Step 4: Run your script
+      # Step 6: Run your script
       - name: Generate ICS file
         run: |
           python create_calendar_local.py
 
-      # Step 5: (Optional) Move `sun.ics` into a specific folder if needed
-      #         Only do this if your GH Pages is looking in `docs/` folder:
+      # Step 7: (Optional) Move `sun.ics` to docs/ if GH Pages expects it there
       # - name: Move ICS to docs
       #   run: mv sun.ics docs/
 
-      # Step 6: Commit and push changes back to repository
+      # Step 8: Commit and push changes back to repository
       - name: Commit and push changes
         run: |
-          git config user.name "github-actions"
-          git config user.email "github-actions@github.com"
           git add sun.ics
           git commit -m "Update sun.ics [skip ci]" || echo "No changes to commit"
           git push
