@@ -6,6 +6,10 @@ A simple ICS calendar that shows daily sunrise & sunset times in San Francisco.
 
 Subscribe to this link ("by URL") in your calendar app: `webcal://www.averychan.site/sun-calendar/sun.ics`
 
+Sunrise and Sunset times for the current week should appear in your calendar like this:
+
+<img src="https://github.com/user-attachments/assets/b74367bc-9a3c-44dd-b00d-57a810d2285f" style="width: 500px" alt="example calendar view">
+
 ## 💻 Dev Usage + Notes
 
 - To generate the isc file, run `create_calendar_local.py`
