@@ -6,4 +6,4 @@ isc calendar with sunrise and sunset times
     2. isc python library https://icspy.readthedocs.io/en/stable/
 3. expose isc file by hosting on GH pages
 4. subscripe to think link (by URL) in your calendar app
-    1. webcal://www.averychan.site/sun-calendar/sun.ics
+    1. `webcal://www.averychan.site/sun-calendar/sun.ics`
