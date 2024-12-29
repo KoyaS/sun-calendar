@@ -9,4 +9,4 @@ isc calendar with sunrise and sunset times
     1. https://www.averychan.site/sun-calendar/sun.ics
 
 Future improvement
-- Just be able to subscript to calendar URL not download file
+- Just be able to subscript to calendar URL not download file (probably use `webcal://` link)
